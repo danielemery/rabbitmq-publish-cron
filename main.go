@@ -14,14 +14,15 @@ func failOnError(err error, msg string) {
 		log.Panicf("%s: %s", msg, err)
 	}
 }
-
-func send() {
+func main() {
 	config, configErr := util.LoadConfig()
 
 	if configErr != nil {
 		fmt.Fprintf(os.Stderr, "Unable to load config")
 		log.Panic(configErr)
 	}
+
+	log.Printf("config loaded successfully, attempting to connect to %s \n", config.RabbitUrl)
 
 	conn, err := amqp.Dial(config.RabbitUrl)
 	failOnError(err, "Failed to connect to RabbitMQ")
@@ -54,8 +55,4 @@ func send() {
 		})
 	failOnError(err, "Failed to publish a message")
 	log.Printf(" [x] Sent %s\n", config.MessageBody)
-}
-
-func main() {
-	send()
 }
