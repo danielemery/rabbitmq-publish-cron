@@ -21,6 +21,9 @@ jobs:
   publish-helm:
     docker:
       - image: hypnoglow/helm-s3:master-helm3.4
+    shell: /bin/sh -leo pipefail
+    environment:
+      - BASH_ENV: /etc/profile
     steps:
       - checkout
       - run:
