@@ -1,0 +1,18 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ .Release.Name }}-cron
+spec:
+  schedule: {{ required "A valid entry for publish.cronSchedule is required." .Values.publish.cronSchedule | quote }}
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: {{ .Release.Name }}-publish
+            image: demery/rabbitmq-publish-cron:v0.0.1-beta
+            imagePullPolicy: IfNotPresent
+            envFrom:
+              - configMapRef:
+                  name: {{ .Release.Name }}-configmap
+          restartPolicy: OnFailure

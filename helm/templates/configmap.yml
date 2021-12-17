@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-configmap
+data:
+  RABBIT_URL: {{ required "A valid entry for publish.rabbitUrl is required" .Values.publish.rabbitURL | quote }}
+  EXCHANGE_NAME: {{ required "A valid entry for publish.exchangeName is required" .Values.publish.exchangeName | quote }}
+  MESSAGE_BODY: {{ required "A valid entry for publish.messageBody is required" .Values.publish.messageBody | quote }}

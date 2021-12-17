@@ -1,0 +1,9 @@
+apiVersion: v2
+name: rabbitmq-publish-cron
+description: Simple CRON job to publish a fixed message to a fixed exchange on a schedule
+
+type: application
+
+version: 0.1.0
+
+appVersion: "0.0.1-beta"

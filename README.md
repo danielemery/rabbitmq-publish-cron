@@ -8,3 +8,9 @@ Simple docker container to publish a fixed message to a specified queue. Created
 docker build -t rabbitmq-publish-cron:latest .
 docker run --env-file=.env rabbitmq-publish-cron:latest
 ```
+
+## Local Helm Deployment
+
+```
+helm install test_helm_deployment ./helm --dry-run
+```
