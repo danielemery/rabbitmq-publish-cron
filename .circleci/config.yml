@@ -24,6 +24,12 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Setup Environment Variables
+          command: |
+            TAG="${CIRCLE_TAG:1}"
+            echo $TAG
+            echo "export TAG=$TAG" >> $BASH_ENV
+      - run:
           name: Add Repo
           command: |
             helm repo add demery-helm s3://helm.demery.com.au
@@ -31,11 +37,11 @@ jobs:
       - run:
           name: Package Chart
           command: |
-            helm package ./helm --version=$CIRCLE_TAG --app-version=$CIRCLE_TAG
+            helm package ./helm --version=$TAG --app-version=$TAG
       - run:
           name: Publish Chart
           command: |
-            helm s3 push ./rabbitmq-publish-cron-$CIRCLE_TAG.tgz demery-helm
+            helm s3 push ./rabbitmq-publish-cron-$TAG.tgz demery-helm
 
   publish-docker-beta:
     machine:
