@@ -70,7 +70,7 @@ helm repo add demery-helm s3://helm.demery.com.au
 # List to double check
 helm repo list
 # Package up the chart ready for deployment
-helm package ./helm --version=0.0.2 --app-version=0.0.2
+helm package ./helm --version=v0.0.2 --app-version=v0.0.2
 # Push the bundle to the s3 repo (replace file with newly generated)
 helm s3 push ./rabbitmq-publish-cron-0.1.0.tgz demery-helm
 ```
