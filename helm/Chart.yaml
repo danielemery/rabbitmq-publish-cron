@@ -4,6 +4,6 @@ description: Simple CRON job to publish a fixed message to a fixed exchange on a
 
 type: application
 
-version: 0.1.0
+version: 0.0.0
 
-appVersion: "0.0.1-beta"
+appVersion: "0.0.0"
