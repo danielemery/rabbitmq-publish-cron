@@ -14,19 +14,19 @@ This repository includes:
 
 #### Create and populate `values.yml` file.
 
-| Name          | Description                                                                                                                                   | Default | Required |
-| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ------- | -------- |
-| rabbitURL     | Full `amqp://` url to connect to rabbit                                                                                                       | None    | Yes      |
-| exchangeName  | The name of the exchange to publish to, will be created if doesn't exist                                                                      | None    | Yes      |
-| messageBody   | The message body to publish to the exchange                                                                                                   | None    | Yes      |
-| cronSchedule  | The schedule definition [See CRON Schedule Syntax](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/#cron-schedule-syntax) | None    | Yes      |
+| Name         | Description                                                                                                                                   | Default | Required |
+| ------------ | --------------------------------------------------------------------------------------------------------------------------------------------- | ------- | -------- |
+| rabbitURL    | Full `amqp://` url to connect to rabbit                                                                                                       | None    | Yes      |
+| exchangeName | The name of the exchange to publish to, will be created if doesn't exist                                                                      | None    | Yes      |
+| messageBody  | The message body to publish to the exchange                                                                                                   | None    | Yes      |
+| cronSchedule | The schedule definition [See CRON Schedule Syntax](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/#cron-schedule-syntax) | None    | Yes      |
 
 Example:
 
 ```yml
 # values.yml
 publish:
-  rabbitURL: "amqp://local_test:local_test@172.27.49.251:5672/"
+  rabbitURL: "amqp://local_test:local_test@localhost:5672/"
   exchangeName: "test_exchange"
   messageBody: "Hello, World!"
   cronSchedule: "*/1 * * * *"
@@ -35,10 +35,8 @@ publish:
 #### Add repo and run chart
 
 ```sh
-# If not already installed, install the helm s3 plugin
-helm plugin install https://github.com/hypnoglow/helm-s3.git
 # Add s3 repo
-helm repo add demery-helm s3://helm.demery.com.au
+helm repo add demery-helm http://helm.demery.com.au
 # Install rabbitmq-publish-cron into the `test` namespace
 helm install publish-cron demery-helm/rabbitmq-publish-cron -f values.yaml -n test
 # Remove rabbitmq-publish-cron
@@ -60,19 +58,20 @@ docker run --env-file=.env rabbitmq-publish-cron:latest
 helm install test_helm_deployment ./helm
 ```
 
-## Helm Publish
+## Manual Helm Publish
+
+CircleCI is performing the publish of the helm chart to the helm repo on tag.
+If for whatever reason you need to perform a manual publish of the chart to the helm repo, the following can be run:
 
 ```sh
 # If not already installed, install the helm s3 plugin
 helm plugin install https://github.com/hypnoglow/helm-s3.git
 # Add the helm repo
 helm repo add demery-helm s3://helm.demery.com.au
-# List to double check
-helm repo list
 # Package up the chart ready for deployment
 helm package ./helm --version=v0.0.2 --app-version=v0.0.2
 # Push the bundle to the s3 repo (replace file with newly generated)
-helm s3 push ./rabbitmq-publish-cron-0.1.0.tgz demery-helm
+helm s3 push ./rabbitmq-publish-cron-v0.0.2.tgz demery-helm
 ```
 
 Note:
