@@ -24,10 +24,6 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Test S3 Access
-          command: |
-            aws s3api list-objects --bucket=helm.demery.com.au
-      - run:
           name: Add Repo
           command: |
             helm repo add demery-helm s3://helm.demery.com.au
