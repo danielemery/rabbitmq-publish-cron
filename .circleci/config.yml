@@ -24,22 +24,22 @@ jobs:
     steps:
       - checkout
       - run:
-        name: Test S3 Access
-        command: |
-          aws s3api list-objects --bucket=helm.demery.com.au
+          name: Test S3 Access
+          command: |
+            aws s3api list-objects --bucket=helm.demery.com.au
       - run:
-        name: Add Repo
-        command: |
-          helm repo add demery-helm s3://helm.demery.com.au
-          helm repo list
+          name: Add Repo
+          command: |
+            helm repo add demery-helm s3://helm.demery.com.au
+            helm repo list
       - run:
-        name: Package Chart
-        command: |
-          helm package ./helm --version=$CIRCLE_TAG --app-version=$CIRCLE_TAG
+          name: Package Chart
+          command: |
+            helm package ./helm --version=$CIRCLE_TAG --app-version=$CIRCLE_TAG
       - run:
-        name: Publish Chart
-        command: |
-          helm s3 push ./rabbitmq-publish-cron-$CIRCLE_TAG.tgz demery-helm
+          name: Publish Chart
+          command: |
+            helm s3 push ./rabbitmq-publish-cron-$CIRCLE_TAG.tgz demery-helm
 
   publish-docker-beta:
     machine:
