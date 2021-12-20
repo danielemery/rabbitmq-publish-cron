@@ -35,10 +35,10 @@ publish:
 #### Add repo and run chart
 
 ```sh
-# Add s3 repo
-helm repo add demery-s3 https://helm.demery.net
+# Add https:// repo
+helm repo add demery https://helm.demery.net
 # Install rabbitmq-publish-cron into the `test` namespace
-helm install publish-cron demery-s3/rabbitmq-publish-cron -f values.yaml -n test
+helm install publish-cron demery/rabbitmq-publish-cron -f values.yaml -n test
 # Remove rabbitmq-publish-cron
 helm uninstall publish-cron -n test
 ```
