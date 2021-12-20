@@ -35,10 +35,10 @@ publish:
 #### Add repo and run chart
 
 ```sh
-# Add s3 repo
-helm repo add demery-helm http://helm.demery.com.au
+# Add https:// repo
+helm repo add demery https://helm.demery.net
 # Install rabbitmq-publish-cron into the `test` namespace
-helm install publish-cron demery-helm/rabbitmq-publish-cron -f values.yaml -n test
+helm install publish-cron demery/rabbitmq-publish-cron -f values.yaml -n test
 # Remove rabbitmq-publish-cron
 helm uninstall publish-cron -n test
 ```
@@ -67,16 +67,16 @@ If for whatever reason you need to perform a manual publish of the chart to the 
 # If not already installed, install the helm s3 plugin
 helm plugin install https://github.com/hypnoglow/helm-s3.git
 # Add the helm repo
-helm repo add demery-helm s3://helm.demery.com.au
+helm repo add demery-s3 s3://helm.demery.net
 # Package up the chart ready for deployment
 helm package ./helm --version=0.0.2 --app-version=0.0.2
 # Push the bundle to the s3 repo (replace file with newly generated)
-helm s3 push ./rabbitmq-publish-cron-0.0.2.tgz demery-helm
+helm s3 push --relative ./rabbitmq-publish-cron-0.0.2.tgz demery-s3
 ```
 
 Note:
 For the very first publish the following was run:
 
 ```sh
-helm s3 init s3://helm.demery.com.au
+helm s3 init s3://helm.demery.net
 ```
